@@ -26,7 +26,7 @@ def main():
         sys.exit(__doc__)
     kind, src = sys.argv[1], sys.argv[2]
     w, h = portrait.SIZES[kind]
-    outdir = os.path.join(HERE, '..', 'assets', 'portrait'); os.makedirs(outdir, exist_ok=True)
+    outdir = os.path.normpath(os.path.join(HERE, '..', 'assets', 'portrait')); os.makedirs(outdir, exist_ok=True)
     im = portrait.prepare(src, w, h)
     q = portrait.quantize(im)
     # 存成量化後的灰階（四個固定亮度），建置時看到的就是這張
