@@ -108,7 +108,7 @@ assets/portrait/      自備頭像放這裡（不提交）
 
 | 內容 | 授權 |
 |---|---|
-| 本專案的程式碼、組合語言、翻譯文本與文件 | [CC BY-NC-SA 4.0](LICENSE)（姓名標示－非商業性－相同方式分享）© 2026 MANA |
+| 本專案的程式碼、組合語言、翻譯文本與文件 | [CC BY-NC-SA 4.0](LICENSE)（姓名標示－非商業性－相同方式分享）© 2026 [MANA](https://www.facebook.com/ManaYi520) |
 | 縫合像素字型（`fonts/*.bdf`） | [SIL Open Font License 1.1](fonts/OFL.txt) © TakWolf |
 | 《霊幻道士》遊戲本體（程式、圖像、音樂、日文原文） | 屬原權利人所有，**本專案不包含** |
 
@@ -143,5 +143,5 @@ assets/portrait/      自備頭像放這裡（不提交）
 
 ## 致謝
 
-- 中文化：MANA
+- 中文化：[MANA](https://www.facebook.com/ManaYi520)
 - 字型：[縫合像素字型 Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font)（TakWolf，OFL 1.1）
