@@ -35,7 +35,8 @@ def main():
     ap.add_argument('out', nargs='?', default=os.path.join(HERE, 'out', f'Reigen_Doushi_(CHT_CHS)_{VERSION}.nes'))
     ap.add_argument('--text', default=os.path.join(HERE, 'text', '靈幻道士_翻譯.xlsx'), help='翻譯試算表')
     ap.add_argument('--portrait', default=os.path.join(HERE, 'assets', 'portrait'), help='頭像圖片資料夾')
-    ap.add_argument('--ips', action='store_true', help='另外輸出 .ips（以原版 ROM 為基底）')
+    ap.add_argument('--bps', action='store_true', help='另外輸出 .bps（建議公開散布用：不含原版程式碼）')
+    ap.add_argument('--ips', action='store_true', help='另外輸出 .ips（注意：會夾帶原版程式碼的複本，不建議公開散布）')
     a = ap.parse_args()
 
     check_rom(a.rom)
@@ -51,8 +52,14 @@ def main():
 
     out = open(a.out, 'rb').read()
     print(f'\n完成：{a.out}  ({len(out)} bytes, CRC32 {zlib.crc32(out[16:]):08X})')
+    sys.path.insert(0, os.path.join(HERE, 'tools'))
+    if a.bps:
+        from make_bps import make_bps, apply_bps
+        orig = open(a.rom, 'rb').read(); p = make_bps(orig, out)
+        assert apply_bps(orig, p) == out
+        bp = os.path.splitext(a.out)[0] + '.bps'; open(bp, 'wb').write(p)
+        print('BPS：', bp)
     if a.ips:
-        sys.path.insert(0, os.path.join(HERE, 'tools'))
         from make_ips import make_ips
         p = os.path.splitext(a.out)[0] + '.ips'
         open(p, 'wb').write(make_ips(open(a.rom, 'rb').read(), out))

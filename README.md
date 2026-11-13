@@ -37,11 +37,21 @@ python build.py "Reigen Doushi (Japan).nes"
 | 參數 | 說明 |
 |---|---|
 | `輸出.nes` | 第二個參數，指定輸出檔（預設 `out/Reigen_Doushi_(CHT_CHS)_V2.6.nes`） |
-| `--ips` | 另外輸出 `.ips`（以原版 ROM 為基底） |
+| `--bps` | 另外輸出 `.bps` 修補檔（**公開散布請用這個**） |
+| `--ips` | 另外輸出 `.ips`（會夾帶原版程式碼的複本，見下方說明） |
 | `--text 檔案.xlsx` | 改用其他翻譯試算表 |
 | `--portrait 資料夾` | 改用其他頭像資料夾 |
 
 建置程式會先檢查 ROM 的 CRC32，不符時會停止。
+
+## 修補檔（BPS／IPS）
+
+這個中文化把 ROM 從 256KB 擴充到 512KB（MMC1 SUROM），上半部 256KB 必須放原版程式的複本。
+
+- **BPS**（`--bps`）可以「從原版 ROM 複製」資料，修補檔只含中文化新增的部分（約 100KB），**公開散布請用 BPS**。
+- **IPS**（`--ips`）只能寫入新資料，會把約 170KB 的原版程式碼一起包進修補檔，建議只自己使用。
+
+BPS 可用 Floating IPS、Rom Patcher JS 等工具套用。
 
 ## 頭像（自備）
 
