@@ -1,14 +1,9 @@
 # ROM 與建置結果不要提交
 *.nes
 *.ips
+!release/*.ips
 *.fds
 out/
-# 自備的頭像圖片（可能有著作權／肖像權問題）
-assets/portrait/*.png
-assets/portrait/*.jpg
-assets/portrait/*.jpeg
-assets/portrait/*.bmp
-assets/portrait/*.gif
 __pycache__/
 *.pyc
 .DS_Store

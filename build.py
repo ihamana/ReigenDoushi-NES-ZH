@@ -6,7 +6,6 @@
 
 原版 ROM 需為 No-Intro「Reigen Doushi (Japan).nes」
 （含檔頭 CRC32 8F0EAB04；不含檔頭的 PRG CRC32 0021ED29）。本專案不提供 ROM。
-頭像圖片（非必要）：放在 assets/portrait/master.png、disciple.png（見 assets/portrait/README.md）。
 """
 import os, sys, zlib, runpy, argparse
 for _s in (sys.stdout, sys.stderr):
@@ -34,7 +33,6 @@ def main():
     ap.add_argument('rom', help='原版 ROM：Reigen Doushi (Japan).nes')
     ap.add_argument('out', nargs='?', default=os.path.join(HERE, 'out', f'Reigen_Doushi_(CHT_CHS)_{VERSION}.nes'))
     ap.add_argument('--text', default=os.path.join(HERE, 'text', '靈幻道士_翻譯.xlsx'), help='翻譯試算表')
-    ap.add_argument('--portrait', default=os.path.join(HERE, 'assets', 'portrait'), help='頭像圖片資料夾')
     ap.add_argument('--bps', action='store_true', help='另外輸出 .bps（建議公開散布用：不含原版程式碼）')
     ap.add_argument('--ips', action='store_true', help='另外輸出 .ips（注意：會夾帶原版程式碼的複本，不建議公開散布）')
     a = ap.parse_args()
@@ -43,7 +41,7 @@ def main():
     os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
     fonts = os.path.join(HERE, 'fonts')
     os.environ['REIGEN_ROM'] = os.path.abspath(a.rom)
-    os.environ['REIGEN_PORTRAIT'] = os.path.abspath(a.portrait)
+    os.environ['REIGEN_PORTRAIT'] = os.path.join(HERE, 'assets', 'portrait')
     os.environ['NESFONT'] = os.path.join(fonts, 'fusion-pixel-12px-monospaced-zh_tw.bdf')
     os.environ['NESFONT_SC'] = os.path.join(fonts, 'fusion-pixel-12px-monospaced-zh_hans.bdf')
     sys.argv = ['patch.py', os.path.abspath(a.text), os.path.abspath(a.out)]

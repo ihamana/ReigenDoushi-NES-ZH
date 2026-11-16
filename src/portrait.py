@@ -1,13 +1,4 @@
-"""門口頭像：把一張圖片轉成 NES 圖塊（2bpp，4 階灰）。
-
-頭像規格（遊戲內固定，不能改）：
-  師父（道長） master   : 48 x 64 像素 = 6 x 8 個 8x8 圖塊（768 bytes）
-  弟子（文才） disciple : 32 x 32 像素 = 4 x 4 個 8x8 圖塊（256 bytes）
-  顏色：4 階灰（由暗到亮 0/1/2/3），實際顏色由遊戲調色盤決定。
-
-圖片剛好是上面的尺寸時照原樣量化；其他尺寸的圖片：會先裁掉四周 4%，再從中間裁成上面的長寬比、縮小、
-自動對比、量化成 4 階。建議用臉部置中、背景單純的圖片。
-"""
+"""門口頭像圖片 → NES 圖塊（師父 48×64、弟子 32×32，4 階灰）。"""
 from PIL import Image, ImageOps, ImageDraw
 
 LV = [0, 84, 152, 236]          # 4 階灰的參考亮度
@@ -47,29 +38,6 @@ def to_tiles(q):
 
 def portrait_tiles(src, w, h):
     return to_tiles(quantize(prepare(src, w, h)))
-
-def placeholder(text, w, h):
-    """沒有提供頭像圖片時的預設圖：框線＋文字（用專案內的縫合像素字型）。"""
-    import pixfont
-    q = [[1] * w for _ in range(h)]
-    for x in range(w): q[0][x] = q[h - 1][x] = 3
-    for y in range(h): q[y][0] = q[y][w - 1] = 3
-    g = Image.new('1', (12 * len(text), 12), 0)
-    for i, c in enumerate(text): pixfont.draw(g, i * 12, 0, c, cellw=12, lang='tc')
-    if h >= 48:                                   # 直排、放大兩倍
-        cells = [g.crop((i * 12, 0, i * 12 + 12, 12)).resize((24, 24), Image.NEAREST) for i in range(len(text))]
-        tot = 24 * len(cells); y0 = (h - tot) // 2
-        for i, c in enumerate(cells):
-            px = c.load(); x0 = (w - 24) // 2
-            for y in range(24):
-                for x in range(24):
-                    if px[x, y]: q[y0 + i * 24 + y][x0 + x] = 3
-    else:
-        px = g.load(); x0 = (w - g.width) // 2; y0 = (h - 12) // 2
-        for y in range(12):
-            for x in range(g.width):
-                if px[x, y]: q[y0 + y][x0 + x] = 3
-    return to_tiles(q)
 
 def preview(tiles, w, h, scale=4):
     """圖塊 → 預覽圖（4 階灰，放大 scale 倍）。"""

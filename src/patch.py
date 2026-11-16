@@ -315,12 +315,11 @@ def find_portrait(name):
         f=os.path.join(PORTRAIT_DIR,name+'.'+ext)
         if PORTRAIT_DIR and os.path.exists(f): return f
     return None
-import portrait
 _m=find_portrait('master'); _d=find_portrait('disciple')
-pm=portrait_tiles(_m,48,64) if _m else portrait.placeholder('道長',48,64)
-pd=portrait_tiles(_d,32,32) if _d else portrait.placeholder('文才',32,32)
+assert _m and _d, 'assets/portrait/master.jpg, disciple.jpg not found'
+pm=portrait_tiles(_m,48,64)
+pd=portrait_tiles(_d,32,32)
 assert len(pm)==768 and len(pd)==256
-print('portraits: master',_m or '(placeholder)',' disciple',_d or '(placeholder)')
 boxdata[0x1800:0x1800+768]=pm; boxdata[0x1B00:0x1B00+256]=pd
 for v in range(8):   # door portrait: tiles each village never shows (48 per village, $BA00+v*64)
     boxdata[0x3A00+v*64:0x3A00+v*64+48]=bytes(int(t,16) for t in _vt[str(v)]['portrait_tiles'])

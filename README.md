@@ -9,7 +9,7 @@
 
 - 全部對話、門口說明、選單、取名／密碼畫面按鈕中文化（縫合像素 12px 字型）
 - 繁中／簡中雙語：標題選單第三行「繁中　简中」，按 Select 切換
-- 調查房屋時出現師父頭像、門口對話出現弟子頭像（頭像圖片需自備，見下方）
+- 調查房屋時出現道長頭像、門口對話出現文才頭像
 - 標題畫面輸入「上上下下左右左右」：得到全道具、古法書 99 本、村莊走路兩倍速
 - 道士之心輸入「どうしのこころどうしのこころへ」直接到洛黃村
 - 容量由 256KB 擴充到 512KB（MMC1 SUROM）
@@ -37,36 +37,34 @@ python build.py "Reigen Doushi (Japan).nes"
 | 參數 | 說明 |
 |---|---|
 | `輸出.nes` | 第二個參數，指定輸出檔（預設 `out/Reigen_Doushi_(CHT_CHS)_V2.6.nes`） |
-| `--bps` | 另外輸出 `.bps` 修補檔（**公開散布請用這個**） |
-| `--ips` | 另外輸出 `.ips`（會夾帶原版程式碼的複本，見下方說明） |
+| `--ips` | 另外輸出 `.ips` 修補檔 |
+| `--bps` | 另外輸出 `.bps` 修補檔 |
 | `--text 檔案.xlsx` | 改用其他翻譯試算表 |
-| `--portrait 資料夾` | 改用其他頭像資料夾 |
 
 建置程式會先檢查 ROM 的 CRC32，不符時會停止。
 
-## 修補檔（BPS／IPS）
+## 現成修補檔
 
-這個中文化把 ROM 從 256KB 擴充到 512KB（MMC1 SUROM），上半部 256KB 必須放原版程式的複本。
+`release/` 內有：
 
-- **BPS**（`--bps`）可以「從原版 ROM 複製」資料，修補檔只含中文化新增的部分（約 100KB），**公開散布請用 BPS**。
-- **IPS**（`--ips`）只能寫入新資料，會把約 170KB 的原版程式碼一起包進修補檔，建議只自己使用。
+| 檔案 | 說明 |
+|---|---|
+| `Reigen_Doushi_CHT_CHS_V2.6.ips` | 修補檔，用 Lunar IPS、Floating IPS、Rom Patcher JS 等套用到原版 ROM |
+| `Reigen_Doushi_HDPack_V2.6.zip` | Mesen HD Pack（見下方） |
 
-BPS 可用 Floating IPS、Rom Patcher JS 等工具套用。
+套用後的 ROM：CRC32 `6BD1CAFC`（含檔頭）／`2F4A2156`（不含檔頭）。自己建置的結果與此完全相同。
 
-## 頭像（自備）
+## Mesen HD Pack（高解析文字）
 
-原作者版本的頭像取自電影劇照，有著作權與肖像權問題，所以**不附在本專案裡**。
-沒有提供時會用「道長」「文才」字樣的預設圖，遊戲功能不受影響。
+`release/Reigen_Doushi_HDPack_V2.6.zip` 是給 Mesen 用的高解析文字包，把遊戲中的文字換成 4 倍解析度的思源宋體（Source Han Serif）。
 
-想放自己的圖片：
+- 全部中文文字（對話、門口說明、標題選單、取名／密碼畫面按鈕、玩家名字），繁中用繁體字形、简中用簡體字形
+- 取名／密碼畫面的假名、標題畫面英文字、游標
+- 最上方狀態欄（村名、古法書數量、物品）維持原版圖案
 
-```
-python tools/portrait_tool.py master   你的圖片.jpg   # 師父：48×64 像素
-python tools/portrait_tool.py disciple 你的圖片.png   # 弟子：32×32 像素
-python build.py "Reigen Doushi (Japan).nes"
-```
-
-規格與細節見 [`assets/portrait/README.md`](assets/portrait/README.md)。
+安裝（Mesen 2）：
+1. 解壓到 Mesen 的 `HdPacks` 資料夾，資料夾名稱改成和 ROM 檔名（不含 `.nes`）相同，例如 `HdPacks\Reigen_Doushi_CHT_CHS_V2.6\hires.txt`。
+2. Mesen 設定 → 影像 → 勾選「使用 HD Pack」，重新載入遊戲。
 
 ## 修改翻譯
 
@@ -100,8 +98,9 @@ src/
   village_tiles.json  各村莊未使用的圖塊（頭像暫存用）
 text/                 翻譯試算表
 fonts/                縫合像素字型（OFL 1.1）
-tools/                頭像轉換、試算表轉換、IPS 產生
-assets/portrait/      自備頭像放這裡（不提交）
+tools/                試算表轉換、IPS／BPS 產生
+assets/portrait/      道長、文才頭像圖片
+release/              現成的 IPS 修補檔與 Mesen HD Pack
 ```
 
 ## 授權
@@ -110,15 +109,16 @@ assets/portrait/      自備頭像放這裡（不提交）
 |---|---|
 | 本專案的程式碼、組合語言、翻譯文本與文件 | [CC BY-NC-SA 4.0](LICENSE)（姓名標示－非商業性－相同方式分享）© 2026 [MANA](https://www.facebook.com/ManaYi520) |
 | 縫合像素字型（`fonts/*.bdf`） | [SIL Open Font License 1.1](fonts/OFL.txt) © TakWolf |
+| HD Pack 內的字形圖（思源宋體） | SIL Open Font License 1.1 © Adobe |
 | 《霊幻道士》遊戲本體（程式、圖像、音樂、日文原文） | 屬原權利人所有，**本專案不包含** |
 
 - 本專案只提供修補程式與翻譯，不提供、也請勿散布遊戲 ROM 或修補後的 ROM。
 - 字型依 OFL 1.1 原樣隨附；CC BY-NC-SA 4.0 不適用於字型檔。
-- 頭像圖片不附，請只使用你有權使用的圖片。
 
 ## 版本紀錄
 
 **V2.6**
+- 新增 Mesen HD Pack（思源宋體高解析文字）
 - 修正使用密技後，帶出房間的小殭屍在村莊不會跟著走的問題（同時修正原版距離只比低位元組的缺陷）
 - 武道館問答 #201 正解改為「棺材」
 
@@ -145,3 +145,4 @@ assets/portrait/      自備頭像放這裡（不提交）
 
 - 中文化：[MANA](https://www.facebook.com/ManaYi520)
 - 字型：[縫合像素字型 Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font)（TakWolf，OFL 1.1）
+- HD Pack 字型：思源宋體 Source Han Serif（Adobe，OFL 1.1；以同字形的 Noto Serif CJK 繪製）
