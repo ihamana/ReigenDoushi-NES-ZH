@@ -1,0 +1,10 @@
+# ROM 與建置結果不要提交
+*.nes
+*.ips
+!release/*.ips
+*.fds
+out/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
