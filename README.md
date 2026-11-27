@@ -97,7 +97,7 @@ src/
   village_tiles.json  各村莊未使用的圖塊（頭像暫存用）
 text/                 翻譯試算表
 fonts/                縫合像素字型（OFL 1.1）
-tools/                試算表轉換、IPS／BPS 產生
+tools/                IPS／BPS 產生
 assets/portrait/      道長、文才頭像圖片
 release/              現成的 IPS 修補檔與 Mesen HD Pack
 ```
